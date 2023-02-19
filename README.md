@@ -1,6 +1,6 @@
 # TypeScript: A Terminal-Based Blog Browser
 
-## Before you start
+## Before you start //
 
 👉 First, fork and clone this repository.
 
