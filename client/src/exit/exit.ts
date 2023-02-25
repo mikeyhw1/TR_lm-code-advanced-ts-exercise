@@ -1,3 +1,3 @@
-export function exit(code) {
+export function exit(code: number) {
 	process.exit(code);
 }
