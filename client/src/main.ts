@@ -71,7 +71,6 @@ async function main() {
 				print("🥬     Why did you want this?     🥬", false);
 				print("🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬", false);
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				// currentState.set(states.MENU);
 				currentState.reset();
 				break;
 			default:

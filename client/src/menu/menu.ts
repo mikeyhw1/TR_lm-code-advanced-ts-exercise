@@ -9,6 +9,7 @@ export async function showMenu() {
 	print("2. Show all users", false);
 	print("3. Browse posts", false);
 	print("4. Add user", false);
+	print("99. ???", false);
 	printNewLine();
 
 	const result = await prompt("What shall we do? ");
@@ -18,6 +19,7 @@ export async function showMenu() {
 	if (result === "2") return "SHOW_USERS" as State;
 	if (result === "3") return "BROWSE_POSTS" as State;
 	if (result === "4") return "ADD_USER" as State;
+	if (result === "99") return "CABBAGE" as State;
 
 	return "UNKNOWN" as State;
 }
