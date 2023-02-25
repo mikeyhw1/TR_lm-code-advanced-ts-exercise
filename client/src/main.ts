@@ -18,47 +18,51 @@ async function begin() {
 }
 
 async function main() {
-	// let state = new State();
-	let state = new CurrentState();
+	let currentState = new CurrentState();
 
 	while (true) {
-		switch (state.get()) {
+		switch (currentState.get()) {
 			case "MENU":
 				const newMenuOption: State = await showMenu();
-				state.set(newMenuOption);
+				currentState.set(newMenuOption);
 				break;
 			case "SEND_MESSAGE":
 				const nextState: State = await sendMessage();
-				state.set(nextState);
+				currentState.set(nextState);
 				break;
 			case "SHOW_POSTS":
 				clear();
 				const posts: State = await showAllPosts();
-				state.set(posts);
+				currentState.set(posts);
 				break;
 			case "SHOW_USERS":
 				clear();
 				const users: State = await showAllUsers();
-				state.set(users);
+				currentState.set(users);
 				break;
 			case "BROWSE_POSTS":
 				clear();
 				const post: State = await browsePosts();
-				state.set(post);
+				currentState.set(post);
 				break;
 			case "ADD_USER":
 				clear();
 				print("🏗️  This functionality has not been implemented!");
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				// state.set(states.MENU);
-				state.reset();
+				// currentState.set(states.MENU);
+				currentState.reset();
+				break;
+			case "FAIL":
+				clear();
+				print("😵 ERROR! Expected serser response / Server connection FAILED");
+				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
+				currentState.reset();
 				break;
 			case "UNKNOWN":
 				clear();
 				print("😵 We have entered an unknown state.");
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				// state.set(states.MENU);
-				state.reset();
+				currentState.reset();
 				break;
 			case "CABBAGE":
 				clear();
@@ -67,12 +71,14 @@ async function main() {
 				print("🥬     Why did you want this?     🥬", false);
 				print("🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬", false);
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				// state.set(states.MENU);
-				state.reset();
+				// currentState.set(states.MENU);
+				currentState.reset();
 				break;
 			default:
 				clear();
-				print(`🌋 😱 Uh-oh, we've entered an invalid state: "${state.get()}"`);
+				print(
+					`🌋 😱 Uh-oh, we've entered an invalid state: "${currentState.get()}"`
+				);
 				print("💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥", false);
 				print("💥 Crashing the program now...  💥", false);
 				print("💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥", false);

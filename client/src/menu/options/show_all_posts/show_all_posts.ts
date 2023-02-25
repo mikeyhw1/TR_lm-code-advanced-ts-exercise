@@ -12,13 +12,17 @@ export async function showAllPosts() {
 
 	const result = await fetchAllPosts();
 
-	print(`🥳 Received ${result.length} posts. Here they are:`);
-
-	console.log(result);
+	if (result && result.length > 0) {
+		print(`🥳 Received ${result.length} posts. Here they are:`);
+		console.log(result);
+	} else {
+		print("😵 Server no response / EMPTY posts result received");
+		await prompt("⌨️ Press [ENTER] to ERROR page!");
+		return "FAIL" as State;
+	}
 
 	printNewLine();
 	await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
 
-	// return result;
 	return "MENU" as State;
 }

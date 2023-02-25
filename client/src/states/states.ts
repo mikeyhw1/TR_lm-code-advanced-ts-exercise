@@ -19,6 +19,7 @@ export const STATES = [
 	"SHOW_USERS",
 	"BROWSE_POSTS",
 	"ADD_USER",
+	"FAIL",
 	"UNKNOWN",
 	"CABBAGE",
 ] as const;

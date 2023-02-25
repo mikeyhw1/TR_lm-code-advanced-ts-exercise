@@ -1,22 +1,22 @@
 import { STATES, State } from "./states";
 
 export class CurrentState {
-	state: State;
+	currentState: State;
 
-	constructor(state = "MENU" as State) {
-		this.state = state;
+	constructor(currentState = "MENU" as State) {
+		this.currentState = currentState;
 	}
 
 	public get(): State {
-		return this.state;
+		return this.currentState;
 	}
 
 	public set(newState: State) {
-		this.state = newState;
+		this.currentState = newState;
 	}
 
 	public reset() {
-		this.state = "MENU" as State;
+		this.currentState = "MENU" as State;
 	}
 }
 
