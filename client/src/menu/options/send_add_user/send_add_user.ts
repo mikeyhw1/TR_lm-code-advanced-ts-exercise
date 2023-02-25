@@ -6,7 +6,9 @@ import { clear, print, printNewLine, prompt } from "../../../ui/console";
 export async function send_add_user() {
 	clear();
 
-	const data = await prompt("What is the new user name? ");
+	const data = await prompt("Please input the new user name? ");
+
+	// TODO: check valid
 
 	printNewLine();
 	print(`📨 Sending data "${data}"...`);
@@ -15,7 +17,7 @@ export async function send_add_user() {
 
 	if (success === true) print("🥳 User created successfully!");
 	else {
-		print("😵 Upload NOT received.");
+		print("😵 Upload unsuccessful");
 		await prompt("⌨️ Press [ENTER] to ERROR page!");
 		return "FAIL" as State;
 	}

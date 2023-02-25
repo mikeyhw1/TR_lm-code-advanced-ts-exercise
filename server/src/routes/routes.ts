@@ -75,8 +75,6 @@ function addAPIRoutes(app: Express, userDatabase: UserDatabase) {
 
 	apiRouter.get("/posts/:id", (req, res) => {
 		const post = getAllPosts(userDatabase).find((p) => p.id === req.params.id);
-		console.log(post);
-
 		if (post !== undefined)
 			res.status(200).send(JSON.stringify({ postFound: true, ...post }));
 		else res.status(200).send(JSON.stringify({ postFound: false }));
@@ -101,8 +99,8 @@ function addAPIRoutes(app: Express, userDatabase: UserDatabase) {
 
 	apiRouter.post("/add/user", (req, res) => {
 		const { body } = req;
-		console.log(`👋 Received new use name : "${body.message}"`);
 		const result = userDatabase.addUser(body.message);
+		console.log(`👋 Received new use name : "${body.message}"`);
 		// reply with a success boolean
 		res.status(200).send({ success: true });
 	});
