@@ -1,4 +1,5 @@
-import { states } from "../states/states";
+import { State, STATES } from "../states/states";
+import { CurrentState } from "../states/currentState";
 import { clear, print, printNewLine, prompt } from "../ui/console";
 
 export async function showMenu() {
@@ -12,11 +13,11 @@ export async function showMenu() {
 
 	const result = await prompt("What shall we do? ");
 
-	if (result === "0") return states.SEND_MESSAGE;
-	if (result === "1") return states.SHOW_POSTS;
-	if (result === "2") return states.SHOW_USERS;
-	if (result === "3") return states.BROWSE_POSTS;
-	if (result === "4") return states.ADD_USER;
+	if (result === "0") return "SEND_MESSAGE" as State;
+	if (result === "1") return "SHOW_POSTS" as State;
+	if (result === "2") return "SHOW_USERS" as State;
+	if (result === "3") return "BROWSE_POSTS" as State;
+	if (result === "4") return "ADD_USER" as State;
 
-	return states.UNKNOWN;
+	return "UNKNOWN" as State;
 }

@@ -4,8 +4,10 @@ import { browsePosts } from "./menu/options/browse_posts/browse_posts";
 import { sendMessage } from "./menu/options/send_message/send_message";
 import { showAllPosts } from "./menu/options/show_all_posts/show_all_posts";
 import { showAllUsers } from "./menu/options/show_all_users/show_all_users";
-import { State } from "./states/state";
-import { states } from "./states/states";
+// import { State } from "./states/state";
+// import { states } from "./states/states";
+import { State, STATES } from "./states/states";
+import { CurrentState } from "./states/currentState";
 import { clear, print, printNewLine, prompt } from "./ui/console";
 
 async function begin() {
@@ -16,44 +18,47 @@ async function begin() {
 }
 
 async function main() {
-	let state = new State();
+	// let state = new State();
+	let state = new CurrentState();
 
 	while (true) {
 		switch (state.get()) {
 			case "MENU":
-				const newMenuOption = await showMenu();
+				const newMenuOption: State = await showMenu();
 				state.set(newMenuOption);
 				break;
 			case "SEND_MESSAGE":
-				const nextState = await sendMessage();
+				const nextState: State = await sendMessage();
 				state.set(nextState);
 				break;
 			case "SHOW_POSTS":
 				clear();
-				const posts = await showAllPosts();
-				state.set(states.MENU);
+				const posts: State = await showAllPosts();
+				state.set(posts);
 				break;
 			case "SHOW_USERS":
 				clear();
-				const users = await showAllUsers();
-				state.set(states.MENU);
+				const users: State = await showAllUsers();
+				state.set(users);
 				break;
 			case "BROWSE_POSTS":
 				clear();
-				const post = await browsePosts();
-				state.set(states.MENU);
+				const post: State = await browsePosts();
+				state.set(post);
 				break;
 			case "ADD_USER":
 				clear();
 				print("🏗️  This functionality has not been implemented!");
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				state.set(states.MENU);
+				// state.set(states.MENU);
+				state.reset();
 				break;
 			case "UNKNOWN":
 				clear();
 				print("😵 We have entered an unknown state.");
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				state.set(states.MENU);
+				// state.set(states.MENU);
+				state.reset();
 				break;
 			case "CABBAGE":
 				clear();
@@ -62,7 +67,8 @@ async function main() {
 				print("🥬     Why did you want this?     🥬", false);
 				print("🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬🥬", false);
 				await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-				state.set(states.MENU);
+				// state.set(states.MENU);
+				state.reset();
 				break;
 			default:
 				clear();

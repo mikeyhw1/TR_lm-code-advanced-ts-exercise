@@ -1,5 +1,6 @@
 import { sendMessageToServer } from "../../../api/send_message_to_server";
-import { states } from "../../../states/states";
+import { STATES, State } from "../../../states/states";
+import { CurrentState } from "../../../states/currentState";
 import { clear, print, printNewLine, prompt } from "../../../ui/console";
 
 export async function sendMessage() {
@@ -17,5 +18,5 @@ export async function sendMessage() {
 
 	await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
 
-	return states.MENU;
+	return "MENU" as State;
 }
