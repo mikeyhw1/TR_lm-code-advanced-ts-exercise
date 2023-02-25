@@ -1,7 +1,7 @@
 import * as express from "express";
 import { Express } from "express";
 import { getAllPosts } from "../services/posts_service";
-import { getAllUsers } from "../services/users_service";
+import { UserDatabase } from "../services/users_service";
 
 /*
 
@@ -16,9 +16,12 @@ import { getAllUsers } from "../services/users_service";
 export function initialiseRoutes(app: Express) {
 	console.log("🏗️  Setting up routers...");
 
+	// create user database
+	const userDatabase = new UserDatabase();
+
 	addBaseRouter(app);
 
-	addAPIRoutes(app);
+	addAPIRoutes(app, userDatabase);
 }
 
 function addBaseRouter(app: Express) {
@@ -42,7 +45,7 @@ function addBaseRouter(app: Express) {
 }
 
 // this function adds all the routes we can access by going to /api/[someRoute]
-function addAPIRoutes(app: Express) {
+function addAPIRoutes(app: Express, userDatabase: UserDatabase) {
 	console.log("🛠️  Creating API router...");
 
 	const apiRouter = express.Router();
@@ -67,11 +70,13 @@ function addAPIRoutes(app: Express) {
 	// now we'll add some routes that let us browse some blog posts
 	console.log("✍️  Adding blog post routes...");
 	apiRouter.get("/posts/all", (req, res) => {
-		res.status(200).send(JSON.stringify(getAllPosts()));
+		res.status(200).send(JSON.stringify(getAllPosts(userDatabase)));
 	});
 
 	apiRouter.get("/posts/:id", (req, res) => {
-		const post = getAllPosts().find((p) => p.id === req.params.id);
+		const post = getAllPosts(userDatabase).find((p) => p.id === req.params.id);
+		console.log(post);
+
 		if (post !== undefined)
 			res.status(200).send(JSON.stringify({ postFound: true, ...post }));
 		else res.status(200).send(JSON.stringify({ postFound: false }));
@@ -79,7 +84,7 @@ function addAPIRoutes(app: Express) {
 
 	console.log("✍️  Adding user routes...");
 	apiRouter.get("/users/all", (req, res) => {
-		res.status(200).send(JSON.stringify(getAllUsers()));
+		res.status(200).send(JSON.stringify(userDatabase.getAllUsers()));
 	});
 
 	// ❗ [1] See README
@@ -88,8 +93,18 @@ function addAPIRoutes(app: Express) {
 		res
 			.status(200)
 			.send(
-				JSON.stringify(getAllUsers().filter((u) => u.id === req.params.id))
+				JSON.stringify(
+					userDatabase.getAllUsers().filter((u) => u.id === req.params.id)
+				)
 			);
+	});
+
+	apiRouter.post("/add/user", (req, res) => {
+		const { body } = req;
+		console.log(`👋 Received new use name : "${body.message}"`);
+		const result = userDatabase.addUser(body.message);
+		// reply with a success boolean
+		res.status(200).send({ success: true });
 	});
 
 	console.log("🛠️  Applying API router to Express server...");

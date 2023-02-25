@@ -17,6 +17,7 @@ export async function showAllUsers() {
 		console.log(result);
 	} else {
 		print("😵 Server no response / EMPTY users result received");
+		console.log(result);
 		await prompt("⌨️ Press [ENTER] to ERROR page!");
 		return "FAIL" as State;
 	}

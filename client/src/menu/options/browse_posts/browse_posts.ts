@@ -17,11 +17,12 @@ export async function browsePosts() {
 	print(`📨 Fetching post "${desiredPostId}...`);
 	const result = await fetchPost(desiredPostId);
 
-	if (result && result.length > 0) {
+	if (result) {
 		print(`🥳 Received post:`);
 		console.log(result);
 	} else {
 		print("😵 Server no response / EMPTY post result received");
+		console.log(result);
 		await prompt("⌨️ Press [ENTER] to ERROR page!");
 		return "FAIL" as State;
 	}

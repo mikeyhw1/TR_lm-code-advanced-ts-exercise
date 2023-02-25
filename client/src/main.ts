@@ -4,8 +4,7 @@ import { browsePosts } from "./menu/options/browse_posts/browse_posts";
 import { sendMessage } from "./menu/options/send_message/send_message";
 import { showAllPosts } from "./menu/options/show_all_posts/show_all_posts";
 import { showAllUsers } from "./menu/options/show_all_users/show_all_users";
-// import { State } from "./states/state";
-// import { states } from "./states/states";
+import { send_add_user } from "./menu/options/send_add_user/send_add_user";
 import { State, STATES } from "./states/states";
 import { CurrentState } from "./states/currentState";
 import { clear, print, printNewLine, prompt } from "./ui/console";
@@ -49,10 +48,8 @@ async function stateAsyncLoop(currentState: CurrentState): Promise<void> {
 			return stateAsyncLoop(currentState);
 		case "ADD_USER":
 			clear();
-			print("🏗️  This functionality has not been implemented!");
-			await prompt("⌨️ Press [ENTER] to return to the main menu! 🕶️");
-			// currentState.set(states.MENU);
-			currentState.reset();
+			const addUser: State = await send_add_user();
+			currentState.set(addUser);
 			return stateAsyncLoop(currentState);
 		case "FAIL":
 			clear();
