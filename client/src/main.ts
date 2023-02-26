@@ -23,7 +23,8 @@ async function main() {
 }
 
 async function stateAsyncLoop(currentState: CurrentState): Promise<void> {
-	switch (currentState.get()) {
+	const state: State = currentState.get();
+	switch (state) {
 		case "MENU":
 			const newMenuOption: State = await showMenu();
 			currentState.set(newMenuOption);
