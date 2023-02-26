@@ -8,7 +8,7 @@ export async function send_new_user(data: string) {
 				"Content-Type": "application/json",
 			},
 			method: "POST",
-			body: JSON.stringify({ message: data }),
+			body: JSON.stringify({ data: data }),
 		});
 
 		const json = await result.json();

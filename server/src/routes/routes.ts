@@ -2,6 +2,7 @@ import * as express from "express";
 import { Express } from "express";
 import { PostDatabase } from "../services/posts_service";
 import { UserDatabase } from "../services/users_service";
+import { User } from "../types/posts.types";
 
 /*
 
@@ -104,10 +105,31 @@ function addAPIRoutes(
 
 	apiRouter.post("/add/user", (req, res) => {
 		const { body } = req;
-		const result = userDatabase.addUser(body.message);
-		console.log(`👋 Received new use name : "${body.message}"`);
+		const result = userDatabase.addUser(body.data);
+		console.log(`👋 Received new use name : "${body.data}"`);
 		// reply with a success boolean
 		res.status(200).send({ success: true });
+	});
+
+	apiRouter.post("/add/post", (req, res) => {
+		const { body } = req;
+		const { newPostTitle, newText, newUserID } = body;
+
+		// todo: further validation required
+		const user: User | undefined = userDatabase
+			.getAllUsers()
+			.find((u) => u.id === newUserID);
+
+		if (user === undefined) {
+			res
+				.status(500)
+				.send({ success: false, errorMsg: "user database error!" });
+		} else {
+			postDatabase.addPost(newPostTitle, newText, user);
+			console.log(`👋 Created new post!"`);
+			// reply with a success boolean
+			res.status(200).send({ success: true });
+		}
 	});
 
 	console.log("🛠️  Applying API router to Express server...");
