@@ -5,6 +5,7 @@ import { sendMessage } from "./menu/options/send_message/send_message";
 import { showAllPosts } from "./menu/options/show_all_posts/show_all_posts";
 import { showAllUsers } from "./menu/options/show_all_users/show_all_users";
 import { send_add_user } from "./menu/options/send_add_user/send_add_user";
+import { send_add_post } from "./menu/options/send_add_post/send_add_post";
 import { State, STATES } from "./states/states";
 import { CurrentState } from "./states/currentState";
 import { clear, print, printNewLine, prompt } from "./ui/console";
@@ -50,6 +51,11 @@ async function stateAsyncLoop(currentState: CurrentState): Promise<void> {
 			clear();
 			const addUser: State = await send_add_user();
 			currentState.set(addUser);
+			return stateAsyncLoop(currentState);
+		case "ADD_POST":
+			clear();
+			const addPost: State = await send_add_post();
+			currentState.set(addPost);
 			return stateAsyncLoop(currentState);
 		case "FAIL":
 			clear();

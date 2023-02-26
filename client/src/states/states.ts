@@ -5,6 +5,7 @@ export const STATES = [
 	"SHOW_USERS",
 	"BROWSE_POSTS",
 	"ADD_USER",
+	"ADD_POST",
 	"FAIL",
 	"UNKNOWN",
 	"CABBAGE",

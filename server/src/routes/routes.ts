@@ -1,6 +1,6 @@
 import * as express from "express";
 import { Express } from "express";
-import { getAllPosts } from "../services/posts_service";
+import { PostDatabase } from "../services/posts_service";
 import { UserDatabase } from "../services/users_service";
 
 /*
@@ -16,12 +16,13 @@ import { UserDatabase } from "../services/users_service";
 export function initialiseRoutes(app: Express) {
 	console.log("🏗️  Setting up routers...");
 
-	// create user database
+	// create user & post database(temp)
 	const userDatabase = new UserDatabase();
+	const postDatabase = new PostDatabase(userDatabase);
 
 	addBaseRouter(app);
 
-	addAPIRoutes(app, userDatabase);
+	addAPIRoutes(app, userDatabase, postDatabase);
 }
 
 function addBaseRouter(app: Express) {
@@ -45,7 +46,11 @@ function addBaseRouter(app: Express) {
 }
 
 // this function adds all the routes we can access by going to /api/[someRoute]
-function addAPIRoutes(app: Express, userDatabase: UserDatabase) {
+function addAPIRoutes(
+	app: Express,
+	userDatabase: UserDatabase,
+	postDatabase: PostDatabase
+) {
 	console.log("🛠️  Creating API router...");
 
 	const apiRouter = express.Router();
@@ -70,11 +75,11 @@ function addAPIRoutes(app: Express, userDatabase: UserDatabase) {
 	// now we'll add some routes that let us browse some blog posts
 	console.log("✍️  Adding blog post routes...");
 	apiRouter.get("/posts/all", (req, res) => {
-		res.status(200).send(JSON.stringify(getAllPosts(userDatabase)));
+		res.status(200).send(JSON.stringify(postDatabase.getAllPosts()));
 	});
 
 	apiRouter.get("/posts/:id", (req, res) => {
-		const post = getAllPosts(userDatabase).find((p) => p.id === req.params.id);
+		const post = postDatabase.getAllPosts().find((p) => p.id === req.params.id);
 		if (post !== undefined)
 			res.status(200).send(JSON.stringify({ postFound: true, ...post }));
 		else res.status(200).send(JSON.stringify({ postFound: false }));
